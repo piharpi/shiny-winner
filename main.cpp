@@ -16,21 +16,21 @@ int main(){
     if (opt == 1)
     {
       std::system("cls");
-      // Route::Barista();
+      Route::Barista();
       goto mainMenu;
       
     }
     else if(opt==2)
     {
       std::system("cls");
-      // Route::Kasir();
+      Route::Cashier();
       goto mainMenu;
 
     }
     else if(opt==3)
     {
       std::system("cls");
-      Route::order();
+      Route::Customer();
       goto mainMenu;
     }
 

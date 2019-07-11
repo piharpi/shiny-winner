@@ -19,10 +19,4 @@ namespace Model
         struct Order Order;
         double Total;
     };
-
-    struct List
-    {
-        struct Payment py;
-        int head, tail;        
-    };
 } // namespace Model
