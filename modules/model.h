@@ -15,8 +15,10 @@ namespace Model
     };
 
     struct Payment
-    {
+    {   
+        std::string Id;
         struct Order Order;
         double Total;
+        bool Status;
     };
 } // namespace Model

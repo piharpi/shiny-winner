@@ -84,7 +84,7 @@ void Route::search_coffees(void) // squential searching
 		}
 
 		if (found){
-			std::cout<<"Informasi kopi\n";
+			std::cout<<"payrmasi kopi\n";
 			std::cout<<"ID : "<< coffee.Id << "\nNama : "<< coffee.Name <<"\nHarga : "<<coffee.Price<<std::endl;
 			std::cout<<"\ningin melakukan pencarian kembali?(y) ";std::cin>>Y;
 			std::system("cls");
@@ -110,7 +110,7 @@ bool full()
 
 bool empty() 
 {
-	if (queues.tail == -1)
+	if (queues.tail == 0)
 	 {
 	 	return true;
 	 } else {
@@ -125,6 +125,7 @@ void Route::show_queues()
 	{
 		for (int i = queues.head; i < queues.tail; i++)
 		{
+			std::cout <<  queues.payments[i].Id<<" - ";
 			std::cout <<  queues.payments[i].Order.Coffee<<" - ";
 			std::cout <<  queues.payments[i].Order.Name<<" - ";
 			std::cout <<  queues.payments[i].Order.Qty<<" - ";
@@ -135,34 +136,28 @@ void Route::show_queues()
 	{
 		std::cout << " Data kosong "; 
 	}
-	// for(auto pay : queues.payments)
-	// {
-	// 	std::cout << pay.Order.Coffee << " - "; 
-	// 	std::cout << pay.Order.Name << " - "; 
-	// 	std::cout << pay.Order.Qty << "-"; 
-	// 	std::cout << pay.Total << "\n"; 
-	// }
 	
 	std::cout<<std::endl<<"Tekan apapun untuk kembali";
 	getch();
 }
 
-void Route::delete_queues(){
+void Route::delete_queues()
+{
 	int i;
 
 	if (!empty())
 	{
-		std::cout << "\nMengambil data\" "<<queues.payments[queues.head].Order.Name<<" - "<<queues.payments[queues.head].Order.Coffee<<" \"..."<<std::endl;
-		for (i = queues.head; i < queues.tail; i++)
-		{
-			// std::cout << "ini i" << i; 
-			// std::cout << "\nini i+1" << i+1; 	
-			queues.payments[i] = queues.payments[i+1];
-		// getchar();
-
+		if(queues.payments[queues.head].Status == false){
+			std::cout << "Belum lunas";
+			getch();
+		}else {
+			std::cout << "\nMengambil data\" "<<queues.payments[queues.head].Order.Name<<" - "<<queues.payments[queues.head].Order.Coffee<<" \"..."<<std::endl;
+			for (i = queues.head; i < queues.tail; i++)
+			{	
+				queues.payments[i] = queues.payments[i+1];
+			}
+			queues.tail--;
 		}
-		queues.tail--;
-		// getchar();
 	} else {
 		std::cout << "Antrean kosong";
 	}
@@ -198,11 +193,13 @@ void Route::order(void){ // fungsi inqueue
 			}
 			if(found == true){
 				total = price * stoi(qty);
+				queues.payments[queues.tail].Id = "ORD"+std::to_string(queues.tail);
 				queues.payments[queues.tail].Order.Coffee = coffee;
 				queues.payments[queues.tail].Order.Name = name;
 				queues.payments[queues.tail].Order.Qty = stoi(qty);
 
 				queues.payments[queues.tail].Total = total;
+				queues.payments[queues.tail].Status = false;
 				queues.tail++;
 			} else {
 				std::cout<<"Kopi tidak ada "; 
@@ -214,4 +211,42 @@ void Route::order(void){ // fungsi inqueue
 		std::cout<<std::endl;
 		std::cout<<std::endl<<"apakah ingin memesan lagi? (y/n)";std::cin>>Y;
 	}while(Y=='y');
+}
+
+void Route::paid(void)
+{
+	std::string id;
+  int money;
+	if (!empty())
+	{
+  	std::cout<<"masukkan id pesanan : ";std::cin>>id;
+  	std::system("cls");
+		for (int i = queues.head; i < queues.tail; i++)
+		{
+			if (queues.payments[i].Id == id)
+			{
+				std::cout<<"kode pemesanan        = "<<queues.payments[i].Id<<std::endl;
+				std::cout<<"nama pemesan          = "<<queues.payments[i].Order.Name<<std::endl;
+				std::cout<<"kopi yang dipesan     = "<<queues.payments[i].Order.Coffee<<std::endl;
+				std::cout<<"jumlah pesanan        = "<<queues.payments[i].Order.Qty<<std::endl;
+				std::cout<<"total pembayaran      = "<<queues.payments[i].Total<<std::endl;
+
+				std::cout<<"uang yang dibayarkan  = ";std::cin>>money;
+
+				//validasi apakah uang lebih atau kurang
+				if (money >= queues.payments[i].Total){
+					queues.payments[i].Status = true;
+					std::cout<<"jumlah uang kembalian = "<<money - queues.payments[i].Total<<std::endl;
+				}else{ std::cout<<"uang anda kurang"<<std::endl; }	
+			} 
+		}
+
+		char Y;
+		std::cout<<"ingin transaksi lagi?(y)";std::cin>>Y;
+		std::system("cls");
+	} 
+	else 
+	{
+		std::cout << " Data kosong "; 
+	}
 }

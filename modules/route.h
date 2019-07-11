@@ -14,6 +14,7 @@ namespace Route
   void search_coffees(void);
 
   // fungsi untuk barista
+  void add_coffees(void); // progress
   void show_queues(void);
   void delete_queues(void);
 

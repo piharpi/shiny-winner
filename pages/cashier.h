@@ -7,7 +7,7 @@ void Route::Cashier(){
     std::cout<<std::endl<<"masukkan pilihan";std::cin>>opt;
     if (opt==1){
       std::system("cls");
-      // Route::Price();
+      Route::paid();
       std::cout<<std::endl;
     }
   }while(opt!=2);
