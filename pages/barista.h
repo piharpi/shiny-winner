@@ -17,7 +17,7 @@ void Route::Barista(void){
       std::cout<<std::endl;
     }else if(opt ==2){
       std::system("cls");
-      // Route::edit_coffees();
+      Route::edit_coffees();
       std::system("cls");
       std::cout<<std::endl;
     }else if(opt ==3){

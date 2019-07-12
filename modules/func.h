@@ -45,9 +45,11 @@ void Route::show_coffees(void)
   // temp dibuat untuk menyimpan perubahan sementara,
   // dimana perubahan diambil dari objek coffee
   // sebelumnya (cf[]), karna kembalian data berupa string name & int price 
-  auto len = sizeof(goods);
+
+  auto len = goods.size();
   //len => panjang array struct coffee
 	// std::cout << len << " buah";
+
   for(auto i=1;i<=len;i++){ // melakukan sorting bubble sort secara ascending
     for(auto j=0;j<len-i;j++){
       if(goods[j].Price > goods[j+1].Price){
@@ -307,16 +309,36 @@ void Route::delete_coffees()
 	Route::initialize();
 }
 
-// void Route::delete_coffees()
-// {
-// 	std::string id;
-// 	goods.at()
-// 	for(auto coffe : goods)
-// 	{
-// 		if(coffe.Id == id)
-// 		{
-// 			goods.
-// 		}
-// 	}
-// }
+void Route::edit_coffees()
+{
+	std::string id{};
+
+	std::ofstream temp;
+	temp.open("collection/coffees_temp.csv");
+
+	std::cout << "Masukkan id kopi = "; std::cin>>id;
+
+	for(auto c:goods) {
+		if(c.Id != id) {
+			temp << c.Id << ',';
+			temp << c.Name << ',';
+			temp << c.Price << '\n';
+		}
+	}
+	
+	temp.close();
+	remove("collection/coffees.csv");
+	rename("collection/coffees_temp.csv", "collection/coffees.csv");
+
+	Route::initialize();
+
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+	std::string name;
+	double price;
+
+	std::cout << "Name :"; std::getline(std::cin, name);
+	std::cout << "Price :"; std::cin >> price;
+
+	store_coffees({id, name, price});
+}
 
