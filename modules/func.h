@@ -4,6 +4,8 @@ std::vector<Model::Coffee> goods;
 std::vector<Model::Order> orders;
 std::vector<Model::Payment> payments;
 
+int lastid{};
+
 struct Queue
 {
 	struct Model::Payment payments[MAX];
@@ -12,8 +14,10 @@ struct Queue
 
 void Route::initialize(void)
 {
+	goods.clear();
+
   std::ifstream is("./collection/coffees.csv");
-	
+
 	std::string item;
 	while(std::getline(is, item))
 	{
@@ -29,6 +33,7 @@ void Route::initialize(void)
 		std::string price = item.substr(begin);
 		
 		goods.push_back({id, name, stod(price)});
+		lastid = stoi(id);
 	}
 	
 	is.close();
@@ -98,7 +103,7 @@ void Route::search_coffees(void) // squential searching
 	} while (Y == 'y');
 }
 
-bool full() 
+bool full(void) 
 {
 	if (queues.tail == MAX - 1)
 	{
@@ -108,7 +113,7 @@ bool full()
 	}
 }
 
-bool empty() 
+bool empty(void) 
 {
 	if (queues.tail == 0)
 	 {
@@ -250,3 +255,68 @@ void Route::paid(void)
 		std::cout << " Data kosong "; 
 	}
 }
+
+void store_coffees(Model::Coffee cof)
+{
+	std::ofstream odb("collection/coffees.csv", std::ios::app);
+	odb	<< cof.Id << "," 
+			<< cof.Name << "," 
+			<< cof.Price << '\n';
+
+	odb.close();
+
+	Route::initialize();
+}
+
+void Route::add_coffees()
+{
+	lastid++;
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+	std::string name;
+
+	std::string id = std::to_string(lastid);
+	double price;
+
+	std::cout << "Name :"; std::getline(std::cin, name);
+	std::cout << "Price :"; std::cin >> price;
+
+	store_coffees({id, name, price});
+}
+
+void Route::delete_coffees()
+{
+	std::string id{};
+
+	std::ofstream temp;
+	temp.open("collection/coffees_temp.csv");
+
+	std::cout << "Masukkan id kopi = "; std::cin>>id;
+
+	for(auto c:goods) {
+		if(c.Id != id) {
+			temp << c.Id << ',';
+			temp << c.Name << ',';
+			temp << c.Price << '\n';
+		}
+	}
+	
+	temp.close();
+	remove("collection/coffees.csv");
+	rename("collection/coffees_temp.csv", "collection/coffees.csv");
+
+	Route::initialize();
+}
+
+// void Route::delete_coffees()
+// {
+// 	std::string id;
+// 	goods.at()
+// 	for(auto coffe : goods)
+// 	{
+// 		if(coffe.Id == id)
+// 		{
+// 			goods.
+// 		}
+// 	}
+// }
+
