@@ -208,6 +208,14 @@ void Route::order(void){ // fungsi inqueue
 				queues.payments[queues.tail].Total = total;
 				queues.payments[queues.tail].Status = false;
 				queues.tail++;
+
+				std::ofstream odb("collection/log.csv", std::ios::app);
+				odb	<< name << " Telah memesan " 
+						<< qty << " Kopi " 
+						<< coffee << " dengan total harga Rp." 
+						<< total << '\n';
+
+				odb.close();
 			} else {
 				std::cout<<"Kopi tidak ada "; 
 			}
@@ -243,6 +251,7 @@ void Route::paid(void)
 				//validasi apakah uang lebih atau kurang
 				if (money >= queues.payments[i].Total){
 					queues.payments[i].Status = true;
+
 					std::cout<<"jumlah uang kembalian = "<<money - queues.payments[i].Total<<std::endl;
 				}else{ std::cout<<"uang anda kurang"<<std::endl; }	
 			} 

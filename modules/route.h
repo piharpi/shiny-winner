@@ -12,12 +12,11 @@ namespace Route
   void order(void);
   void show_coffees(void);
   void search_coffees(void);
-  void logging(void); // progress
 
   // fungsi untuk barista
-  void add_coffees(void); // progress
-  void edit_coffees(void); // progress
-  void delete_coffees(void); // progress
+  void add_coffees(void); 
+  void edit_coffees(void); 
+  void delete_coffees(void); 
   void show_queues(void);
   void delete_queues(void);
 
