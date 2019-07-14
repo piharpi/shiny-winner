@@ -307,7 +307,7 @@ void Route::delete_coffees()
 		if(c.Id != id) {
 			temp << c.Id << ',';
 			temp << c.Name << ',';
-			temp << c.Price << '\n';
+			temp << c.Price << std::endl;
 		}
 	}
 	
