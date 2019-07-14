@@ -132,11 +132,11 @@ void Route::show_queues()
 	{
 		for (int i = queues.head; i < queues.tail; i++)
 		{
-			std::cout <<  queues.payments[i].Id<<" - ";
-			std::cout <<  queues.payments[i].Order.Coffee<<" - ";
-			std::cout <<  queues.payments[i].Order.Name<<" - ";
-			std::cout <<  queues.payments[i].Order.Qty<<" - ";
-			std::cout <<  queues.payments[i].Total<<"\n";
+			std::cout << queues.payments[i].Id<<" - ";
+			std::cout << queues.payments[i].Order.Coffee<<" - ";
+			std::cout << queues.payments[i].Order.Name<<" - ";
+			std::cout << queues.payments[i].Order.Qty<<" - ";
+			std::cout << queues.payments[i].Total<<"\n";
 		}
 	} 
 	else 
