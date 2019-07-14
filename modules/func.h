@@ -33,14 +33,15 @@ void Route::initialize(void)
 		std::string price = item.substr(begin);
 		
 		goods.push_back({id, name, stod(price)});
-		lastid = stoi(id);
+		
+		if(lastid < stoi(id))
+		{
+			lastid = stoi(id);
+		}
 	}
 	
 	is.close();
-}
 
-void Route::show_coffees(void)
-{
 	struct Model::Coffee temp;
   // temp dibuat untuk menyimpan perubahan sementara,
   // dimana perubahan diambil dari objek coffee
@@ -59,7 +60,10 @@ void Route::show_coffees(void)
       }
     }
   }
+}
 
+void Route::show_coffees(void)
+{
   for (auto good : goods)
   {
     std::cout << good.Id;
@@ -172,7 +176,6 @@ void Route::delete_queues()
 
 
 void Route::order(void){ // fungsi inqueue
-	// initqueues();
 
   char Y; 
 	std::string name, coffee, qty;
@@ -195,7 +198,6 @@ void Route::order(void){ // fungsi inqueue
 				{
 					found=true;
 					price= good.Price;
-					// lists.push_back({{{name, coffee, stoi(qty)}, total}});
 				} 
 			}
 			if(found == true){
@@ -259,37 +261,37 @@ void Route::paid(void)
 
 				//validasi apakah uang lebih atau kurang
 				if (money >= queues.payments[i].Total){
-					queues.payments[i].Status = true;
 					
-		
-				std::ofstream os("notta.txt");
+					queues.payments[i].Status = true;				
+			
+					std::ofstream os("notta.txt");
 
-				os << "------------------------------------------------" << std::endl;
-				os << "|              KEDAI KOPI JAMILLAH             |" << std::endl;
-				os << "| JLN. NUSA INDAH NO.32, CONDONG CATUR, SLEMAN |" << std::endl;
-				os << "------------------------------------------------" << std::endl;	
-				double total = 0;
-				os << std::setw(5) << "Nama";
-				os << std::setw(10) << "Kopi";
-				os << std::setw(10) << "Jumlah";
-				os << std::setw(20) << "Harga" << std::endl; 
+					os << "------------------------------------------------" << std::endl;
+					os << "|              KEDAI KOPI JAMILLAH             |" << std::endl;
+					os << "| JLN. NUSA INDAH NO.32, CONDONG CATUR, SLEMAN |" << std::endl;
+					os << "------------------------------------------------" << std::endl;	
+					double total = 0;
+					os << std::setw(5) << "Nama";
+					os << std::setw(10) << "Kopi";
+					os << std::setw(10) << "Jumlah";
+					os << std::setw(20) << "Harga" << std::endl; 
 
-				os << std::setw(5) << queues.payments[i].Order.Name;
-				os << std::setw(10) << queues.payments[i].Order.Coffee;
-				os << std::setw(7) << queues.payments[i].Order.Qty;
-				os << std::setw(21) << price;
-				os << std::endl;
+					os << std::setw(5) << queues.payments[i].Order.Name;
+					os << std::setw(10) << queues.payments[i].Order.Coffee;
+					os << std::setw(7) << queues.payments[i].Order.Qty;
+					os << std::setw(21) << price;
+					os << std::endl;
 
-				os << "------------------------------------------------" << std::endl;
-				os << std::setw(35) << "Total";
-				os << std::setw(10) << queues.payments[i].Total << std::endl;
-				os << std::setw(35) << "Pay";
-				os << std::setw(10) << money << std::endl;	
-				os << std::setw(35) << "Change";
-				os << std::setw(10) << money - queues.payments[i].Total << std::endl;
-				os.close();
+					os << "------------------------------------------------" << std::endl;
+					os << std::setw(35) << "Total";
+					os << std::setw(10) << queues.payments[i].Total << std::endl;
+					os << std::setw(35) << "Pay";
+					os << std::setw(10) << money << std::endl;	
+					os << std::setw(35) << "Change";
+					os << std::setw(10) << money - queues.payments[i].Total << std::endl;
+					os.close();
 
-					std::cout<<"jumlah uang kembalian = "<<money - queues.payments[i].Total<<std::endl;
+					std::cout<<"jumlah uang kembalian = "<<money - queues.payments[i].Total;
 				}else{ std::cout<<"uang anda kurang"<<std::endl; }	
 			} 
 		}

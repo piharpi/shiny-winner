@@ -3,8 +3,8 @@
 | JLN. NUSA INDAH NO.32, CONDONG CATUR, SLEMAN |
 ------------------------------------------------
  Nama      Kopi    Jumlah               Harga
-Ahmad     Latte      3                  20000
+ChoirulHammerhead      2                41000
 ------------------------------------------------
-                              Total     60000
-                                Pay     80000
-                             Change     20000
+                              Total     82000
+                                Pay    100000
+                             Change     18000

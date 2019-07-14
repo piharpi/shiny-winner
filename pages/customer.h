@@ -54,17 +54,12 @@ void Route::Customer(void){
 
     if (opt==1){
       std::system("cls");
-      // Route::show_coffees();
-      std::system("cls");
-      std::cout<<std::endl;
-    }else if(opt==2){
-      std::system("cls");
       Route::search_coffees();
-    }else if(opt==3){
+      std::system("cls");
+    }else if(opt==2){
       std::system("cls");
       Route::order();
       std::system("cls");
-      std::cout<<std::endl;
     }
   }while(opt!=0);
 

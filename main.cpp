@@ -40,43 +40,57 @@ void drawMainMenu() {
 
   // table order
   Interface::xy(65,1); Interface::color(0,7); std::cout << " ID   ";
-  Interface::xy(70,1); std::cout << " KOPI                     ";
-  Interface::xy(90,1); std::cout << " PELANGGAN          ";
+  Interface::xy(70,1); std::cout << "      KOPI                ";
+  Interface::xy(90,1); std::cout << "   PELANGGAN        ";
   Interface::xy(110,1); std::cout << " QTY ";
-  Interface::xy(115,1); std::cout << " TOTAL     ";
+  Interface::xy(115,1); std::cout << "   TOTAL      ";
+  Interface::xy(125,1); std::cout << "   STATUS      ";
   Interface::color(7,0);
   
-  Interface::drawX(65, 2, 60, 205);
+  Interface::drawX(65, 2, 74, 205);
   Interface::drawY(65, 3, 20, 186);
-  Interface::drawY(70, 3, 20, 186);
+  Interface::drawY(73, 3, 20, 186);
   Interface::drawY(90, 3, 20, 186);
   Interface::drawY(110,3, 20,186);
   Interface::drawY(115,3,20,186);
   Interface::drawY(125,3,20,186);
+  Interface::drawY(139,3,20,186);
   Interface::xy(65,2); std::cout << char(201);
-  Interface::xy(70,2); std::cout << char(203);
+  Interface::xy(73,2); std::cout << char(203);
   Interface::xy(90,2); std::cout << char(203);
   Interface::xy(110,2); std::cout << char(203);
   Interface::xy(115,2); std::cout << char(203);
-  Interface::xy(125,2); std::cout << char(187);
+  Interface::xy(125,2); std::cout << char(203);
+  Interface::xy(139,2); std::cout << char(187);
   
-  Interface::drawX(65, 23, 60, 205);
+  Interface::drawX(65, 23, 74, 205);
   Interface::xy(65,23); std::cout << char(200);
-  Interface::xy(70,23); std::cout << char(202);
+  Interface::xy(73,23); std::cout << char(202);
   Interface::xy(90,23); std::cout << char(202);
   Interface::xy(110,23); std::cout << char(202);
   Interface::xy(115,23); std::cout << char(202);
-  Interface::xy(125,23); std::cout << char(188);
+  Interface::xy(125,23); std::cout << char(202);
+  Interface::xy(139,23); std::cout << char(188);
 	int i;
 	if (!empty())
 	{
 		for (int i = queues.head; i < queues.tail; i++)
 		{
-			Interface::xy(65,1); std::cout << queues.payments[i].Id;
-			Interface::xy(70,1); std::cout << queues.payments[i].Order.Coffee;
-			Interface::xy(90,1); std::cout << queues.payments[i].Order.Name;
-			Interface::xy(110,1); std::cout << queues.payments[i].Order.Qty;
-			Interface::xy(115,1); std::cout << queues.payments[i].Total;
+			Interface::xy(67,3+i); std::cout << queues.payments[i].Id;
+			Interface::xy(75,3+i); std::cout << queues.payments[i].Order.Coffee;
+			Interface::xy(92,3+i); std::cout << queues.payments[i].Order.Name;
+			Interface::xy(112,3+i); std::cout << queues.payments[i].Order.Qty;
+			Interface::xy(117,3+i); std::cout << queues.payments[i].Total;
+      if(queues.payments[i].Status)
+      {
+        Interface::color(0,2);
+			  Interface::xy(127,3+i); std::cout << "   LUNAS   ";
+        Interface::color(7,0);
+      } else {
+        Interface::color(0,4);
+			  Interface::xy(127,3+i); std::cout << " BLM LUNAS ";
+        Interface::color(7,0);
+      }
     }
 	} 
 	else 
@@ -88,7 +102,7 @@ void drawMainMenu() {
 }
 
 int main(){
-  Interface::setWindowSize(1060, 700);
+  Interface::setWindowSize(1200, 700);
   Route::initialize();
 
   mainMenu:
