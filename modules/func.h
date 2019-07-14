@@ -83,7 +83,11 @@ void Route::search_coffees(void) // squential searching
   char Y;
 	do 
 	{
-		std::cout << "Cari nama kopi : ";std::cin>>name;
+	  Interface::xy(60,15); Interface::color(0,7); 
+  	std::cout << " PENCARIAN KOPI ";
+		Interface::color(7,0); 
+    Interface::xy(60,17); std::cout << char(175) << " ";
+    std::cin >> name;
 
 		for (auto good : goods)
 		{
@@ -95,15 +99,24 @@ void Route::search_coffees(void) // squential searching
 		}
 
 		if (found){
-			std::cout<<"payrmasi kopi\n";
-			std::cout<<"ID : "<< coffee.Id << "\nNama : "<< coffee.Name <<"\nHarga : "<<coffee.Price<<std::endl;
-			std::cout<<"\ningin melakukan pencarian kembali?(y) ";std::cin>>Y;
+			std::system("cls");
+			
+			Interface::xy(60,15); Interface::color(0,7); 
+  		std::cout << " PENCARIAN KOPI ";
+			Interface::color(7,0); 
+			Interface::xy(60,17); std::cout<<"ID\t\t: "<< coffee.Id;
+			Interface::xy(60,18); std::cout<<"NAMA\t: "<< coffee.Name;
+			Interface::xy(60,19); std::cout<<"HARGA\t: "<<coffee.Price<<'\n';
+			Interface::xy(60,21); std::cout<<"Ingin melakukan pencarian kembali?(y) ";std::cin>>Y;
 			std::system("cls");
 		}
 		else
 		{
+			Interface::xy(60,19); Interface::color(7,4); 
+			std::cout<< "INFO:"; 
+			Interface::color(7,0); Interface::xy(66,19); 
 			std::cout<<"Kopi \"" << name << "\" yang anda cari tidak ditemukan"<<std::endl;
-			std::cout<<"\ningin melakukan pencarian kembali?(y) ";std::cin>>Y;
+			Interface::xy(60,20); std::cout<<"Ingin melakukan pencarian kembali?(y) ";std::cin>>Y;
 			std::system("cls");
 		}
 	} while (Y == 'y');
@@ -187,10 +200,15 @@ void Route::order(void){ // fungsi inqueue
 		double price = 0;
 		if (!full())
 		{
-			std::cout<<"nama pemesan : ";std::cin>>name;
-			std::cout<<"nama kopi : ";std::cin>>coffee;
-			std::cout<<"jumlah : ";std::cin>>qty;
-			// orders.push_back({name, coffee, stoi(qty)});
+			std::system("cls");
+			
+			Interface::xy(60,15); Interface::color(0,7); 
+  		std::cout << " PEMESANAN KOPI ";
+			Interface::color(7,0); 
+			Interface::xy(60,17); std::cout<<"NAMA\t: "; std::cin>>name;
+			Interface::xy(60,18); std::cout<<"KOPI\t: "; std::cin>>coffee;
+			Interface::xy(60,19); std::cout<<"JUMLAH\t: "; std::cin>>qty;
+
 			// penjumlahan total pembayaran
 			for (auto good : goods)
 			{
@@ -221,12 +239,16 @@ void Route::order(void){ // fungsi inqueue
 			} else {
 				std::cout<<"Kopi tidak ada "; 
 			}
-			std::cout << queues.tail;
 			getchar();
-		} else { std::cout<<"Antrian penuh harap bersabar"; }
+		} else { 
+			Interface::xy(60,19); Interface::color(7,4); 
+			std::cout<< "INFO:"; 
+			Interface::color(7,0); Interface::xy(66,19); 
+			std::cout<<"Antrian penuh harap bersabar"; 
+		
+		}
 
-		std::cout<<std::endl;
-		std::cout<<std::endl<<"apakah ingin memesan lagi? (y/n)";std::cin>>Y;
+		Interface::xy(60,21); std::cout<<"Apakah ingin memesan lagi? (y/n)";std::cin>>Y;
 	}while(Y=='y');
 }
 
