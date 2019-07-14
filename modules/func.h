@@ -87,7 +87,9 @@ void Route::search_coffees(void) // squential searching
   	std::cout << " PENCARIAN KOPI ";
 		Interface::color(7,0); 
     Interface::xy(60,17); std::cout << char(175) << " ";
-    std::cin >> name;
+		
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+    std::getline(std::cin, name);
 
 		for (auto good : goods)
 		{
@@ -107,7 +109,7 @@ void Route::search_coffees(void) // squential searching
 			Interface::xy(60,17); std::cout<<"ID\t\t: "<< coffee.Id;
 			Interface::xy(60,18); std::cout<<"NAMA\t: "<< coffee.Name;
 			Interface::xy(60,19); std::cout<<"HARGA\t: "<<coffee.Price<<'\n';
-			Interface::xy(60,21); std::cout<<"Ingin melakukan pencarian kembali?(y) ";std::cin>>Y;
+			Interface::xy(60,21); std::cout<<"Ingin melakukan pencarian kembali?(y/n) ";std::cin>>Y;
 			std::system("cls");
 		}
 		else
@@ -116,7 +118,7 @@ void Route::search_coffees(void) // squential searching
 			std::cout<< "INFO:"; 
 			Interface::color(7,0); Interface::xy(66,19); 
 			std::cout<<"Kopi \"" << name << "\" yang anda cari tidak ditemukan"<<std::endl;
-			Interface::xy(60,20); std::cout<<"Ingin melakukan pencarian kembali?(y) ";std::cin>>Y;
+			Interface::xy(60,20); std::cout<<"Ingin melakukan pencarian kembali?(y/n) ";std::cin>>Y;
 			std::system("cls");
 		}
 	} while (Y == 'y');
@@ -172,7 +174,11 @@ void Route::delete_queues()
 	if (!empty())
 	{
 		if(queues.payments[queues.head].Status == false){
-			std::cout << "Belum lunas";
+			Interface::xy(60,19); Interface::color(7,4); 
+			std::cout<< "INFO:"; 
+			Interface::color(7,0); Interface::xy(66,19); 
+			std::cout<<"Antrian ini belum melunasi"; 
+			
 			getch();
 		}else {
 			std::cout << "\nMengambil data\" "<<queues.payments[queues.head].Order.Name<<" - "<<queues.payments[queues.head].Order.Coffee<<" \"..."<<std::endl;
@@ -201,12 +207,13 @@ void Route::order(void){ // fungsi inqueue
 		if (!full())
 		{
 			std::system("cls");
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 			
 			Interface::xy(60,15); Interface::color(0,7); 
   		std::cout << " PEMESANAN KOPI ";
 			Interface::color(7,0); 
-			Interface::xy(60,17); std::cout<<"NAMA\t: "; std::cin>>name;
-			Interface::xy(60,18); std::cout<<"KOPI\t: "; std::cin>>coffee;
+			Interface::xy(60,17); std::cout<<"NAMA\t: "; std::getline(std::cin, name);
+			Interface::xy(60,18); std::cout<<"KOPI\t: "; std::getline(std::cin, coffee);
 			Interface::xy(60,19); std::cout<<"JUMLAH\t: "; std::cin>>qty;
 
 			// penjumlahan total pembayaran
@@ -237,7 +244,10 @@ void Route::order(void){ // fungsi inqueue
 
 				odb.close();
 			} else {
-				std::cout<<"Kopi tidak ada "; 
+				Interface::xy(60,19); Interface::color(7,4); 
+				std::cout<< "INFO:"; 
+				Interface::color(7,0); Interface::xy(66,19); 
+				std::cout<<"Kopi \"" << name << "\" yang anda cari tidak ditemukan";
 			}
 			getchar();
 		} else { 
@@ -260,8 +270,14 @@ void Route::paid(void)
 	
 	if (!empty())
 	{
-  	std::cout<<"masukkan id pesanan : ";std::cin>>id;
-  	std::system("cls");
+  	// std::cout<<"masukkan id pesanan : ";std::cin>>id;
+		
+		Interface::xy(60,15); Interface::color(0,7); 
+  	std::cout << " PEMBAYARAN (MASUKKAN KODE PEMESANAN) ";
+		Interface::color(7,0); 
+    Interface::xy(60,17); std::cout << char(175) << " ";
+    std::cin >> id;
+
 		for (int i = queues.head; i < queues.tail; i++)
 		{
 			if (queues.payments[i].Id == id)
@@ -273,13 +289,21 @@ void Route::paid(void)
 						price = good.Price;
 					} 
 				}
-				std::cout<<"kode pemesanan        = "<<queues.payments[i].Id<<std::endl;
-				std::cout<<"nama pemesan          = "<<queues.payments[i].Order.Name<<std::endl;
-				std::cout<<"kopi yang dipesan     = "<<queues.payments[i].Order.Coffee<<std::endl;
-				std::cout<<"jumlah pesanan        = "<<queues.payments[i].Order.Qty<<std::endl;
-				std::cout<<"total pembayaran      = "<<queues.payments[i].Total<<std::endl;
 
-				std::cout<<"uang yang dibayarkan  = ";std::cin>>money;
+				Interface::xy(60,17); std::cout<<"KODE \t: "<< queues.payments[i].Id;
+				Interface::xy(60,18); std::cout<<"NAMA\t: "<< queues.payments[i].Order.Name;
+				Interface::xy(60,19); std::cout<<"KOPI\t: "<< queues.payments[i].Order.Coffee;
+				Interface::xy(60,20); std::cout<<"JUMLAH\t: "<< queues.payments[i].Order.Qty;
+				Interface::xy(60,21); std::cout<<"TOTAL\t: "<< queues.payments[i].Total;
+				Interface::xy(60,22); std::cout<<"DIBAYAR\t: "; std::cin>>money;
+
+				// std::cout<<"kode pemesanan        = "<<queues.payments[i].Id<<std::endl;
+				// std::cout<<"nama pemesan          = "<<queues.payments[i].Order.Name<<std::endl;
+				// std::cout<<"kopi yang dipesan     = "<<queues.payments[i].Order.Coffee<<std::endl;
+				// std::cout<<"jumlah pesanan        = "<<queues.payments[i].Order.Qty<<std::endl;
+				// std::cout<<"total pembayaran      = "<<queues.payments[i].Total<<std::endl;
+
+				// std::cout<<"uang yang dibayarkan  = ";std::cin>>money;
 
 				//validasi apakah uang lebih atau kurang
 				if (money >= queues.payments[i].Total){
@@ -313,18 +337,19 @@ void Route::paid(void)
 					os << std::setw(10) << money - queues.payments[i].Total << std::endl;
 					os.close();
 
-					std::cout<<"jumlah uang kembalian = "<<money - queues.payments[i].Total;
-				}else{ std::cout<<"uang anda kurang"<<std::endl; }	
+					Interface::xy(60,23); std::cout<<"KEMBALIAN\t: "<<money - queues.payments[i].Total;
+				}else{ 
+						Interface::xy(60,19); Interface::color(7,4); 
+						std::cout<< "INFO:"; 
+						Interface::color(7,0); Interface::xy(66,19); 
+						std::cout<<"Uang anda kurang";
+					}	
 			} 
 		}
 
 		char Y;
-		std::cout<<"ingin transaksi lagi?(y)";std::cin>>Y;
+		Interface::xy(60,25); std::cout<<"Ingin melakukan transaksi kembali?(y/n) ";std::cin>>Y;
 		std::system("cls");
-	} 
-	else 
-	{
-		std::cout << " Data kosong "; 
 	}
 }
 
@@ -349,8 +374,16 @@ void Route::add_coffees()
 	std::string id = std::to_string(lastid);
 	double price;
 
-	std::cout << "Name :"; std::getline(std::cin, name);
-	std::cout << "Price :"; std::cin >> price;
+	Interface::xy(60,15); Interface::color(0,7); 
+	std::cout << " TAMBAH DAFTAR KOPI ";
+	Interface::color(7,0); 
+	Interface::xy(60,17); std::cout<<"NAMA  : "; std::getline(std::cin, name);
+	Interface::xy(60,18); std::cout<<"HARGA : "; std::cin >> price;
+
+	std::system("cls");
+
+	// std::cout << "Name :"; std::getline(std::cin, name);
+	// std::cout << "Price :"; std::cin >> price;
 
 	store_coffees({id, name, price});
 }
@@ -362,7 +395,11 @@ void Route::delete_coffees()
 	std::ofstream temp;
 	temp.open("collection/coffees_temp.csv");
 
-	std::cout << "Masukkan id kopi = "; std::cin>>id;
+	Interface::xy(60,15); Interface::color(0,7); 
+	std::cout << " HAPUS DAFTAR KOPI ";
+	Interface::color(7,0); 
+	Interface::xy(60,17); std::cout<<"ID KOPI  : "; std::cin>>id;
+
 
 	for(auto c:goods) {
 		if(c.Id != id) {
@@ -386,7 +423,10 @@ void Route::edit_coffees()
 	std::ofstream temp;
 	temp.open("collection/coffees_temp.csv");
 
-	std::cout << "Masukkan id kopi = "; std::cin>>id;
+	Interface::xy(60,15); Interface::color(0,7); 
+	std::cout << " EDIT DAFTAR KOPI(MASUKKAN ID KOPI)";
+	Interface::color(7,0); 
+	Interface::xy(60,16); std::cout << "ID KOPI : "; std::cin>>id;
 
 	for(auto c:goods) {
 		if(c.Id != id) {
@@ -406,8 +446,8 @@ void Route::edit_coffees()
 	std::string name;
 	double price;
 
-	std::cout << "Name :"; std::getline(std::cin, name);
-	std::cout << "Price :"; std::cin >> price;
+	Interface::xy(60,17); std::cout<<"NAMA  : "; std::getline(std::cin, name);
+	Interface::xy(60,18); std::cout<<"HARGA : "; std::cin >> price;
 
 	store_coffees({id, name, price});
 }
