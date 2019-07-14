@@ -163,7 +163,7 @@ void Route::delete_queues()
 			{	
 				queues.payments[i] = queues.payments[i+1];
 			}
-			queues.tail--;
+			queues.tail--; // dectement / atau nilai sekarang dikurang dengan 1
 		}
 	} else {
 		std::cout << "Antrean kosong";
@@ -231,7 +231,9 @@ void Route::order(void){ // fungsi inqueue
 void Route::paid(void)
 {
 	std::string id;
+	double price;
   int money;
+	
 	if (!empty())
 	{
   	std::cout<<"masukkan id pesanan : ";std::cin>>id;
@@ -240,6 +242,13 @@ void Route::paid(void)
 		{
 			if (queues.payments[i].Id == id)
 			{
+				for (auto good : goods)
+				{
+					if (good.Name == queues.payments[i].Order.Coffee)
+					{
+						price = good.Price;
+					} 
+				}
 				std::cout<<"kode pemesanan        = "<<queues.payments[i].Id<<std::endl;
 				std::cout<<"nama pemesan          = "<<queues.payments[i].Order.Name<<std::endl;
 				std::cout<<"kopi yang dipesan     = "<<queues.payments[i].Order.Coffee<<std::endl;
@@ -251,6 +260,34 @@ void Route::paid(void)
 				//validasi apakah uang lebih atau kurang
 				if (money >= queues.payments[i].Total){
 					queues.payments[i].Status = true;
+					
+		
+				std::ofstream os("notta.txt");
+
+				os << "------------------------------------------------" << std::endl;
+				os << "|              KEDAI KOPI JAMILLAH             |" << std::endl;
+				os << "| JLN. NUSA INDAH NO.32, CONDONG CATUR, SLEMAN |" << std::endl;
+				os << "------------------------------------------------" << std::endl;	
+				double total = 0;
+				os << std::setw(5) << "Nama";
+				os << std::setw(10) << "Kopi";
+				os << std::setw(10) << "Jumlah";
+				os << std::setw(20) << "Harga" << std::endl; 
+
+				os << std::setw(5) << queues.payments[i].Order.Name;
+				os << std::setw(10) << queues.payments[i].Order.Coffee;
+				os << std::setw(7) << queues.payments[i].Order.Qty;
+				os << std::setw(21) << price;
+				os << std::endl;
+
+				os << "------------------------------------------------" << std::endl;
+				os << std::setw(35) << "Total";
+				os << std::setw(10) << queues.payments[i].Total << std::endl;
+				os << std::setw(35) << "Pay";
+				os << std::setw(10) << money << std::endl;	
+				os << std::setw(35) << "Change";
+				os << std::setw(10) << money - queues.payments[i].Total << std::endl;
+				os.close();
 
 					std::cout<<"jumlah uang kembalian = "<<money - queues.payments[i].Total<<std::endl;
 				}else{ std::cout<<"uang anda kurang"<<std::endl; }	

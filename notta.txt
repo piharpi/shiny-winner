@@ -1,0 +1,10 @@
+------------------------------------------------
+|              KEDAI KOPI JAMILLAH             |
+| JLN. NUSA INDAH NO.32, CONDONG CATUR, SLEMAN |
+------------------------------------------------
+ Nama      Kopi    Jumlah               Harga
+Ahmad     Latte      3                  20000
+------------------------------------------------
+                              Total     60000
+                                Pay     80000
+                             Change     20000
